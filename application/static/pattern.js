@@ -40,11 +40,26 @@ function get_neighboring_hexagons_odd_row(hexagonId, hexagonsPerRow) {
         add_hexagon_element(hexagonId - 1, neighbors);
     }
 
+    // Up-left
     add_hexagon_element(hexagonId - hexagonsPerRow, neighbors);
-    add_hexagon_element(hexagonId - hexagonsPerRow + 1, neighbors);
-    add_hexagon_element(hexagonId + 1, neighbors);
+
+    // Up-right
+    if ((hexagonId - hexagonsPerRow) % hexagonsPerRow != 0) {
+        add_hexagon_element(hexagonId - hexagonsPerRow + 1, neighbors);
+    }
+
+    // Right
+    if ((hexagonId) % hexagonsPerRow != 0) {
+        add_hexagon_element(hexagonId + 1, neighbors);
+    }
+
+    // Down-left
     add_hexagon_element(hexagonId + hexagonsPerRow, neighbors);
-    add_hexagon_element(hexagonId + hexagonsPerRow + 1, neighbors);
+
+    // Down-right
+    if ((hexagonId + hexagonsPerRow) % hexagonsPerRow != 0) {
+        add_hexagon_element(hexagonId + hexagonsPerRow + 1, neighbors);
+    }
 
     return neighbors;
 }
@@ -66,7 +81,7 @@ function get_neighboring_hexagons(hexagon) {
     const hexagonId = parseInt(hexagon.id.replace("hex-", ""), 10);
     const hexagonsPerRow = get_hexagons_per_row();
 
-    const rowNumber = Math.floor(hexagonId / hexagonsPerRow);
+    const rowNumber = Math.floor((hexagonId - 1) / hexagonsPerRow);
     console.info(rowNumber);
 
     if (rowNumber % 2 == 0) {
