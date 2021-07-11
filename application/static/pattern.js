@@ -11,6 +11,57 @@ function randomHSL(){
                     "80%,1)"
 }
 
+function get_hexagons_per_row() {
+    const hexagon = document.getElementById("hex-1");
+
+    const containerWidth = document.getElementById("hex-container").offsetWidth;
+    const containerPadding = parseInt(window.getComputedStyle(document.getElementById("hex-container")).paddingLeft, 10);
+    const overallContainerWidth = containerWidth - (containerPadding * 2);
+
+    const hexagonWidth = hexagon.parentElement.offsetWidth;
+    const hexagonMargin = parseInt(window.getComputedStyle(hexagon.parentElement).marginLeft, 10);
+
+    const overallHexagonWidth = hexagonWidth + (hexagonMargin * 2);
+    return Math.floor(overallContainerWidth / overallHexagonWidth);
+}
+
+function add_hexagon_element(hexagonId, neighbors) {
+    const neighbor = document.getElementById(`hex-${hexagonId}`);
+    if (neighbor != null) {
+        neighbors.push(neighbor);
+    }
+}
+
+function get_neighboring_hexagons_odd(hexagonId, hexagonsPerRow) {
+    const neighbors = [];
+
+    add_hexagon_element(hexagonId - 1, neighbors);
+    add_hexagon_element(hexagonId - hexagonsPerRow, neighbors);
+    add_hexagon_element(hexagonId - hexagonsPerRow + 1, neighbors);
+    add_hexagon_element(hexagonId + 1, neighbors);
+    add_hexagon_element(hexagonId + hexagonsPerRow, neighbors);
+    add_hexagon_element(hexagonId + hexagonsPerRow + 1, neighbors);
+
+    return neighbors;
+}
+
+function get_neighboring_hexagons(hexagon) {
+    const hexagonId = parseInt(hexagon.id.replace("hex-", ""), 10);
+    const hexagonsPerRow = get_hexagons_per_row();
+
+    return get_neighboring_hexagons_odd(hexagonId, hexagonsPerRow);
+}
+
+function click_hexagon(hexagon) {
+    console.log(hexagon);
+    hexagon.style.background = randomHSL();
+
+    const neighbors = get_neighboring_hexagons(hexagon);
+    neighbors.forEach(function(x){
+        x.style.background = randomHSL();
+    })
+}
+
 // Add listeners
 function add_button_event_listeners() {
     console.log("Initializing button event listeners");
@@ -30,9 +81,10 @@ function add_button_event_listeners() {
         }
 
         const hexClicked = $(this)[0];
-
-        console.log(hexClicked);
-        console.log(randomHSL());
-        hexClicked.style.background = randomHSL();
+        click_hexagon(hexClicked);
+    });
+    $(".hexagon-outer").on('click', 'div', function () {
+        const hexClicked = $(this)[0];
+        click_hexagon(hexClicked);
     });
 }
