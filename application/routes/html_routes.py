@@ -7,7 +7,7 @@ HTML_BLUEPRINT = Blueprint("routes_html", __name__)
 
 @HTML_BLUEPRINT.route("/")
 def homepage():
-    return "<a href='/documents'>Documents</a>"
+    return render_template("pattern.html")
 
 
 @HTML_BLUEPRINT.route("/documents")
