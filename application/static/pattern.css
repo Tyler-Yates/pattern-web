@@ -1,7 +1,8 @@
 .main {
   display: flex; /* we will talk about this later ... */
-  --s: 100px;  /* size  */
-  --m: 2px;   /* margin */
+  --s: 25px;  /* size  */
+  --m: 1px;   /* margin */
+  --b: 2px;   /* border */
 }
 
 .container {
@@ -20,14 +21,14 @@
 }
 
 .hexagon-inner {
-  width: calc(var(--s) - 6px);
-  margin: calc(var(--m) - 6px);
-  height: calc(calc(var(--s)*1.1547) - 6px);
+  width: calc(var(--s) - var(--b));
+  margin: calc(var(--m) - var(--b));
+  height: calc(calc(var(--s)*1.1547) - var(--b));
   display: inline-block;
   font-size: initial;
   clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
   background: white;
-  margin-left: 3px;
-  margin-top: 3px;
+  margin-left: calc(var(--b)/2);
+  margin-top: calc(var(--b)/2);
   margin-bottom: calc(var(--m) - var(--s)*0.2885);
 }
