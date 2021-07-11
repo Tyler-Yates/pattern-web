@@ -1,12 +1,23 @@
 .main {
   display: flex; /* we will talk about this later ... */
-  --s: 25px;  /* size  */
-  --m: 1px;   /* margin */
+  --s: 50px;  /* size  */
+  --m: 2px;   /* margin */
   --b: 2px;   /* border */
+  --f: calc(1.732 * var(--s) + 4 * var(--m)  - 1px);
 }
 
 .container {
   font-size: 0; /* disable white space between inline block element */
+}
+
+.container::before {
+  content: "";
+  width: calc(var(--s)/2 + var(--m));
+  float: left;
+  height: 120%;
+  shape-outside: repeating-linear-gradient(
+                   #0000 0 calc(var(--f) - 3px),
+                   #000  0 var(--f));
 }
 
 .hexagon-outer {
