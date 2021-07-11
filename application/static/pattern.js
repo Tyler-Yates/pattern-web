@@ -32,10 +32,14 @@ function add_hexagon_element(hexagonId, neighbors) {
     }
 }
 
-function get_neighboring_hexagons_odd(hexagonId, hexagonsPerRow) {
+function get_neighboring_hexagons_odd_row(hexagonId, hexagonsPerRow) {
     const neighbors = [];
 
-    add_hexagon_element(hexagonId - 1, neighbors);
+    // Left
+    if ((hexagonId - 1) % hexagonsPerRow != 0) {
+        add_hexagon_element(hexagonId - 1, neighbors);
+    }
+
     add_hexagon_element(hexagonId - hexagonsPerRow, neighbors);
     add_hexagon_element(hexagonId - hexagonsPerRow + 1, neighbors);
     add_hexagon_element(hexagonId + 1, neighbors);
@@ -45,11 +49,31 @@ function get_neighboring_hexagons_odd(hexagonId, hexagonsPerRow) {
     return neighbors;
 }
 
+function get_neighboring_hexagons_even_row(hexagonId, hexagonsPerRow) {
+    const neighbors = [];
+
+    add_hexagon_element(hexagonId - 1, neighbors);
+    add_hexagon_element(hexagonId - hexagonsPerRow - 1, neighbors);
+    add_hexagon_element(hexagonId - hexagonsPerRow, neighbors);
+    add_hexagon_element(hexagonId + 1, neighbors);
+    add_hexagon_element(hexagonId + hexagonsPerRow - 1, neighbors);
+    add_hexagon_element(hexagonId + hexagonsPerRow, neighbors);
+
+    return neighbors;
+}
+
 function get_neighboring_hexagons(hexagon) {
     const hexagonId = parseInt(hexagon.id.replace("hex-", ""), 10);
     const hexagonsPerRow = get_hexagons_per_row();
 
-    return get_neighboring_hexagons_odd(hexagonId, hexagonsPerRow);
+    const rowNumber = Math.floor(hexagonId / hexagonsPerRow);
+    console.info(rowNumber);
+
+    if (rowNumber % 2 == 0) {
+        return get_neighboring_hexagons_even_row(hexagonId, hexagonsPerRow);
+    } else {
+        return get_neighboring_hexagons_odd_row(hexagonId, hexagonsPerRow);
+    }
 }
 
 function click_hexagon(hexagon) {
