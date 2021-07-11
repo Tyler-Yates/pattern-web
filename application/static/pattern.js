@@ -67,11 +67,30 @@ function get_neighboring_hexagons_odd_row(hexagonId, hexagonsPerRow) {
 function get_neighboring_hexagons_even_row(hexagonId, hexagonsPerRow) {
     const neighbors = [];
 
-    add_hexagon_element(hexagonId - 1, neighbors);
-    add_hexagon_element(hexagonId - hexagonsPerRow - 1, neighbors);
+    // Left
+    if ((hexagonId - 1) % hexagonsPerRow != 0) {
+        add_hexagon_element(hexagonId - 1, neighbors);
+    }
+
+    // Up-left
+    if ((hexagonId - hexagonsPerRow - 1) % hexagonsPerRow != 0) {
+        add_hexagon_element(hexagonId - hexagonsPerRow - 1, neighbors);
+    }
+
+    // Up-right
     add_hexagon_element(hexagonId - hexagonsPerRow, neighbors);
-    add_hexagon_element(hexagonId + 1, neighbors);
-    add_hexagon_element(hexagonId + hexagonsPerRow - 1, neighbors);
+
+    // Right
+    if ((hexagonId) % hexagonsPerRow != 0) {
+        add_hexagon_element(hexagonId + 1, neighbors);
+    }
+
+    // Down-left
+    if ((hexagonId + hexagonsPerRow - 1) % hexagonsPerRow != 0) {
+        add_hexagon_element(hexagonId + hexagonsPerRow - 1, neighbors);
+    }
+
+    // Down-right
     add_hexagon_element(hexagonId + hexagonsPerRow, neighbors);
 
     return neighbors;
