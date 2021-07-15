@@ -1,5 +1,3 @@
-from typing import List
-
 from confluent_kafka import Producer
 from cryptography.fernet import Fernet
 
@@ -28,6 +26,9 @@ class KafkaDao:
         print(f"Kafka topics: {self.producer.list_topics().topics}")
 
         self.topic = "yx3jf0q2-default"
+
+        # Send a test message to ensure connection is working
+        self.produce_message(key="test-key", message="Test message")
 
     def produce_message(self, key: str, message: str):
         # We need to encrypt the message since our Kafka host does not provide encryption by default.
